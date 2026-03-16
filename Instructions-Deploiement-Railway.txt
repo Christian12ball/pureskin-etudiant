@@ -1,0 +1,104 @@
+Instructions de déploiement Railway - Frontend + Backend séparés
+========================================================
+
+# =============================================
+# MÉTHODE 1 : DÉPLOIEMENT SÉPARÉ (RECOMMANDÉ)
+# =============================================
+
+## Backend (dossier racine)
+1. Créez un projet Railway pour le backend
+2. Connectez votre repository GitHub
+3. Sélectionnez le dossier racine comme source
+4. Ajoutez les variables d'environnement :
+   - JWT_SECRET (obligatoire)
+   - FAROTY_API_KEY, FAROTY_WALLET_ID, FAROTY_WITHDRAWAL_REF_ID
+   - REDIS_URL, SENTRY_DSN (optionnels)
+
+## Frontend (dossier frontend)
+1. Créez un deuxième projet Railway pour le frontend
+2. Connectez le même repository GitHub
+3. Dans "Settings" → "Build Settings", configurez :
+   - Root Directory: "frontend"
+   - Build Command: "npm install && npm run build"
+   - Start Command: "npm start"
+4. Ajoutez les variables d'environnement :
+   - NEXT_PUBLIC_API_URL = "URL_DE_VOTRE_BACKEND_RAILWAY"
+   - NEXT_PUBLIC_BASE_URL = "URL_DE_VOTRE_FRONTEND_RAILWAY"
+   - NODE_ENV = "production"
+
+# =============================================
+# MÉTHODE 2 : MONOREPO (AVANCÉ)
+# =============================================
+
+Pour déployer les deux services dans le même projet :
+
+1. Structurez votre repository avec :
+   - backend/ (service backend)
+   - frontend/ (service frontend)
+   - railway.toml (configuration principale)
+
+2. railway.toml principal :
+```toml
+[[services]]
+name = "backend"
+source = "backend"
+[services.variables]
+PORT = "8080"
+JWT_SECRET = "${{JWT_SECRET}}"
+# ... autres variables backend
+
+[[services]]
+name = "frontend"
+source = "frontend"
+[services.variables]
+PORT = "3000"
+NEXT_PUBLIC_API_URL = "${{BACKEND_URL}}"
+NODE_ENV = "production"
+```
+
+# =============================================
+# VARIABLES D'ENVIRONNEMENT FRONTEND
+# =============================================
+
+Variables à définir pour le frontend Railway :
+
+NODE_ENV=production
+NEXT_PUBLIC_API_URL=https://votre-backend.railway.app/api
+NEXT_PUBLIC_BASE_URL=https://votre-frontend.railway.app
+PORT=3000
+
+# =============================================
+# ÉTAPES DE DÉPLOIEMENT
+# =============================================
+
+1. **Créez deux projets Railway** :
+   - pureskin-backend
+   - pureskin-frontend
+
+2. **Configurez le backend** :
+   - Repository GitHub
+   - Dossier racine
+   - Variables d'environnement
+
+3. **Configurez le frontend** :
+   - Repository GitHub
+   - Dossier: "frontend"
+   - Variables d'environnement
+
+4. **Déployez** :
+   - Push sur GitHub
+   - Railway déploie automatiquement
+
+5. **Vérifiez** :
+   - Backend: https://votre-backend.railway.app/actuator/health
+   - Frontend: https://votre-frontend.railway.app
+
+# =============================================
+# AVANTAGES DE CETTE APPROCHE
+# =============================================
+
+✅ Déploiement indépendant
+✅ Scalabilité séparée
+✅ Configuration spécifique par service
+✅ Debugging plus facile
+✅ Maintenance simplifiée
