@@ -2,11 +2,11 @@
 FROM node:20-alpine AS frontend-builder
 
 WORKDIR /app/frontend
-COPY frontend/package.json frontend/yarn.lock ./
-RUN yarn install
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm install
 
 COPY frontend/ ./
-RUN yarn build
+RUN npm run build
 
 # Backend build stage
 FROM maven:3.8-openjdk-17 AS backend-builder
