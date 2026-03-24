@@ -10,7 +10,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"https://pureskin-etudiant.vercel.app","http://localhost:3000", "http://localhost:3001"})
+@CrossOrigin(origins = {"https://pureskin-etudiant.vercel.app", "http://localhost:3000", "http://localhost:3001"})
 public class CategoryController {
 
     @Autowired
