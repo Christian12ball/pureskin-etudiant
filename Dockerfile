@@ -27,7 +27,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Copy the backend JAR file
-COPY --from=backend-builder /app/backend/target/*.jar app.jar
+COPY --from=backend-builder /app/backend/target/etudiant-backend-0.0.1-SNAPSHOT.jar app.jar
 
 # Copy the built frontend
 COPY --from=frontend-builder /app/frontend/.next ./frontend/.next
