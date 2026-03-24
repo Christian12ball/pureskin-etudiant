@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
-@CrossOrigin(origins = {"https://pureskin-etudiant.vercel.app","http://localhost:3000", "http://localhost:3001", "http://localhost:3002"}, allowedHeaders = "*")
+@CrossOrigin(origins = {"https://pureskin-etudiant.vercel.app", "http://localhost:3000", "http://localhost:3001", "http://localhost:3002"}, allowedHeaders = "*")
 public class OrderController {
     
     @Autowired
